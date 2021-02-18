@@ -474,7 +474,7 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
               localScrollAmount -
               alignment * startingScrollController.position.viewportDimension;
       await startingScrollController.animateTo(
-          scrollAmount > context.size.height ? startingScrollController.position.maxScrollExtent: scrollAmount,
+          scrollAmount > startingScrollController.position.maxScrollExtent ? startingScrollController.position.maxScrollExtent: scrollAmount,
           duration: duration,
           curve: curve);
     } else {
@@ -498,12 +498,12 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
                       endingScrollController.position.viewportDimension));
           var startCompleterAmount = startingScrollController.offset + direction * scrollAmount;
           startCompleter.complete(startingScrollController.animateTo(
-              startCompleterAmount > context.size.height ? startingScrollController.position.maxScrollExtent: startCompleterAmount,
+              startCompleterAmount > startingScrollController.position.maxScrollExtent ? startingScrollController.position.maxScrollExtent: startCompleterAmount,
               duration: duration,
               curve: curve));
           var endCompleterAmount = -alignment * endingScrollController.position.viewportDimension;
           endCompleter.complete(endingScrollController.animateTo(
-              endCompleterAmount > context.size.height ? startingScrollController.position.maxScrollExtent: endCompleterAmount,
+              endCompleterAmount > startingScrollController.position.maxScrollExtent ? startingScrollController.position.maxScrollExtent: endCompleterAmount,
               duration: duration,
               curve: curve));
 

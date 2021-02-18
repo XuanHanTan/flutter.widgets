@@ -470,10 +470,11 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
     if (itemPosition != null) {
       final localScrollAmount = itemPosition.itemLeadingEdge *
           startingScrollController.position.viewportDimension;
-      await startingScrollController.animateTo(
-          startingScrollController.offset +
+      var scrollAmount = startingScrollController.offset +
               localScrollAmount -
-              alignment * startingScrollController.position.viewportDimension,
+              alignment * startingScrollController.position.viewportDimension;
+      await startingScrollController.animateTo(
+          scrollAmount > MediaQuery.of(context).size.width ? startingScrollController.position.maxScrollExtent: scrollAmount,
           duration: duration,
           curve: curve);
     } else {
@@ -487,7 +488,7 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
         SchedulerBinding.instance.addPostFrameCallback((_) async {
           opacity.parent =
               _opacityAnimation(startingListDisplay, opacityAnimationWeights)
-                  .animate(AnimationController(vsync: this, duration: duration)
+                  .animate(AnimationController(duration: duration)
                     ..forward());
           startAnimationCallback = () {};
           endingScrollController.jumpTo(-direction *
@@ -495,13 +496,14 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
                       startingScrollController.position.viewportDimension -
                   alignment *
                       endingScrollController.position.viewportDimension));
-
+          var startCompleterAmount = startingScrollController.offset + direction * scrollAmount;
           startCompleter.complete(startingScrollController.animateTo(
-              startingScrollController.offset + direction * scrollAmount,
+              startCompleterAmount > MediaQuery.of(context).size.width ? startingScrollController.position.maxScrollExtent: startCompleterAmount,
               duration: duration,
               curve: curve));
+          var endCompleterAmount = -alignment * endingScrollController.position.viewportDimension;
           endCompleter.complete(endingScrollController.animateTo(
-              -alignment * endingScrollController.position.viewportDimension,
+              endCompleterAmount > MediaQuery.of(context).size.width ? startingScrollController.position.maxScrollExtent: endCompleterAmount,
               duration: duration,
               curve: curve));
 

@@ -488,7 +488,7 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
         SchedulerBinding.instance.addPostFrameCallback((_) async {
           opacity.parent =
               _opacityAnimation(startingListDisplay, opacityAnimationWeights)
-                  .animate(AnimationController(duration: duration)
+                 .animate(AnimationController(vsync: this, duration: duration)
                     ..forward());
           startAnimationCallback = () {};
           endingScrollController.jumpTo(-direction *

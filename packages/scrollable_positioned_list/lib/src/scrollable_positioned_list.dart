@@ -303,12 +303,12 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
           backTarget = 0;
         });
       } else {
-        if ( widget.itemCount - 1 > frontTarget) {
+        if (frontTarget > widget.itemCount - 1) {
           setState(() {
             frontTarget = widget.itemCount - 1;
           });
         }
-        if (widget.itemCount - 1 > backTarget) {
+        if (backTarget > widget.itemCount - 1) {
           setState(() {
             backTarget = widget.itemCount - 1;
           });
